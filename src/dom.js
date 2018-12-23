@@ -11,8 +11,8 @@ const objectToStyleString = (styles = {}) => {
         .join(';')
 }
 
-const addAttributes = (element, attrs = {}) => {
-    const props = Object.keys(attrs)
+const addAttributes = (element, attrs) => {
+    const props = Object.keys(attrs || {})
 
     props.forEach(prop => {
         if (prop === 'style') {
@@ -41,39 +41,27 @@ const addAttributes = (element, attrs = {}) => {
 }
 
 const createFragmentFrom = children => {
-    // fragments will help later to append multiple children to the initial node
     const fragment = document.createDocumentFragment()
 
     function processDOMNodes(child) {
-        if (
-            child instanceof HTMLElement ||
-            child instanceof SVGElement ||
-            child instanceof Comment ||
-            child instanceof DocumentFragment
-        ) {
-            fragment.appendChild(child)
-        } else if (typeof child === 'string' || typeof child === 'number') {
+        if (typeof child === 'string' || typeof child === 'number') {
             const textnode = document.createTextNode(child)
             fragment.appendChild(textnode)
         } else if (child instanceof Array) {
             child.forEach(processDOMNodes)
-        } else if (child === false || child === null) {
-            // expression evaluated as false e.g. {false && <Elem />}
-            // expression evaluated as false e.g. {null && <Elem />}
-        } else if (process.env.NODE_ENV === 'development') {
-            // later other things could not be HTMLElement nor strings
-            console.log(child, 'is not appendable')
+        } else if (!child) {
+            // child is false, null or undefined. we do nothing
+        } else {
+            fragment.appendChild(child)
         }
     }
 
-    children instanceof Array
-        ? children.forEach(processDOMNodes)
-        : processDOMNodes(children)
+    children.forEach(processDOMNodes)
 
     return fragment
 }
 
-const dom = (tagName, attrs, children) => {
+const dom = (tagName, attrs, ...children) => {
     const element = isSVG(tagName)
         ? document.createElementNS('http://www.w3.org/2000/svg', tagName)
         : document.createElement(tagName)
