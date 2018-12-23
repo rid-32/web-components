@@ -8,7 +8,6 @@ local_settings.py
 
 webpack-stats.json
 webpack-stats-live.json
-yarn.lock
 
 db.sqlite3
 /media

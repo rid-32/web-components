@@ -1,3 +1,5 @@
-const root = document.getElementById("app-root");
+import App from './app.js'
 
-root.innerHTML = "Hello, world!";
+const root = document.getElementById('app-root')
+
+root.appendChild(App)
