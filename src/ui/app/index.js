@@ -10,14 +10,10 @@ const names = [
     'charliewilco/dotfiles',
 ]
 
-const attrs = {
-    hello: 'hello',
-}
-
 export default (
     <div class="Wrapper">
         {names.map(name => (
-            <github-repo name={name} {...attrs}>
+            <github-repo name={name} onAvatarClick={() => console.log('kek')}>
                 <b>Strong</b>
                 <i>Italic</i>
                 Simple

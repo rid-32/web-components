@@ -1,9 +1,59 @@
+const MOUSE_EVENTS = [
+    'onClick',
+    'onContextMenu',
+    'onDoubleClick',
+    'onDrag',
+    'onDragEnd',
+    'onDragEnter',
+    'onDragExit',
+    'onDragLeave',
+    'onDragOver',
+    'onDragStart',
+    'onDrop',
+    'onMouseDown',
+    'onMouseEnter',
+    'onMouseLeave',
+    'onMouseMove',
+    'onMouseOut',
+    'onMouseOver',
+    'onMouseUp',
+]
+
+const TOUCH_EVENTS = [
+    'onTouchCancel',
+    'onTouchEnd',
+    'onTouchMove',
+    'onTouchStart',
+]
+
+const KEYBOARD_EVENTS = ['onKeyDown', 'onKeyPress', 'onKeyUp']
+
+const FOCUS_EVENTS = ['onFocus', 'onBlur']
+
+const FORM_EVENTS = ['onChange', 'onInput', 'onInvalid', 'onSubmit']
+
+const UI_EVENTS = ['onScroll']
+
+const IMAGE_EVENTS = ['onLoad', 'onError']
+
+const synteticEvents = [
+    ...MOUSE_EVENTS,
+    ...TOUCH_EVENTS,
+    ...KEYBOARD_EVENTS,
+    ...FOCUS_EVENTS,
+    ...FORM_EVENTS,
+    ...UI_EVENTS,
+    ...IMAGE_EVENTS,
+]
+
 const isSVG = element => {
     const patt = new RegExp(`^${element}$`, 'i')
     const SVGTags = ['path', 'svg', 'use', 'g']
 
     return SVGTags.some(tag => patt.test(tag))
 }
+
+const isCustomElement = element => element.tagName.includes('-')
 
 const objectToStyleString = (styles = {}) => {
     return Object.keys(styles)
@@ -16,7 +66,6 @@ const addAttributes = (element, attrs) => {
 
     props.forEach(prop => {
         if (prop === 'style') {
-            // e.g. origin: <element style={{ prop: value }} />
             element.style.cssText = objectToStyleString(attrs[prop])
         } else if (prop === 'ref' && typeof attrs.ref === 'function') {
             attrs.ref(element, attrs)
@@ -32,8 +81,21 @@ const addAttributes = (element, attrs) => {
             // eslint-disable-next-line no-underscore-dangle
             element.innerHTML = attrs[prop].__html
         } else {
-            // any other prop will be set as attribute
-            element.setAttribute(prop, attrs[prop])
+            if (isCustomElement(element)) {
+                element.props = {
+                    ...element.props,
+                    [prop]: attrs[prop],
+                }
+            } else if (
+                synteticEvents.includes(prop) &&
+                typeof attrs[prop] === 'function'
+            ) {
+                const eventName = prop.split('on')[1].toLowerCase()
+
+                element.addEventListener(eventName, attrs[prop])
+            } else {
+                element.setAttribute(prop, attrs[prop])
+            }
         }
     })
 

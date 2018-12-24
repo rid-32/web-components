@@ -8,14 +8,12 @@ class githubRepo extends HTMLElement {
     }
 
     async connectedCallback() {
-        const name = this.getAttribute('name')
-
         this.repoDetails = {
             owner: {
                 avatar_url:
                     'https://avatars1.githubusercontent.com/u/4588060?v=4',
             },
-            full_name: name,
+            full_name: this.props.name,
             description: 'A Modular CSS Library',
         }
 
@@ -42,6 +40,7 @@ class githubRepo extends HTMLElement {
                             height="48"
                             class="Avatar"
                             src={repo.owner.avatar_url}
+                            onClick={this.props.onAvatarClick}
                         />
                         {children}
                     </aside>
