@@ -1,7 +1,5 @@
 import dom from 'dom'
 
-import 'ui/githubRepo'
-
 const names = [
     'charliewilco/obsidian',
     'charliewilco/level.css',

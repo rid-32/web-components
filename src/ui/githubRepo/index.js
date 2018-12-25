@@ -1,56 +1,49 @@
 import dom from 'dom'
+import Component from 'utils/component'
 
-class githubRepo extends HTMLElement {
-    constructor() {
-        super()
-
-        this.repoDetails = null
+class githubRepo extends Component {
+    state = {
+        value: 0,
     }
 
-    async connectedCallback() {
-        this.repoDetails = {
-            owner: {
-                avatar_url:
-                    'https://avatars1.githubusercontent.com/u/4588060?v=4',
-            },
-            full_name: this.props.name,
-            description: 'A Modular CSS Library',
-        }
-
-        this.initShadowDOM()
+    repo = {
+        owner: {
+            avatar_url: 'https://avatars1.githubusercontent.com/u/4588060?v=4',
+        },
+        full_name: this.props.name,
+        description: 'A Modular CSS Library',
     }
 
-    initShadowDOM() {
-        let shadowRoot = this.attachShadow({ mode: 'open' })
-        shadowRoot.appendChild(this.template)
+    incValue = () => {
+        this.setState({ ...this.state, value: this.state.value + 1 })
     }
 
-    get template() {
-        const repo = this.repoDetails
-        const children = Array.prototype.slice.call(this.childNodes)
+    decValue = () => {
+        if (this.state.value > 0)
+            this.setState({ ...this.state, value: this.state.value - 1 })
+    }
 
-        if (repo.message) {
-            return <div class="Card Card--error">Error: {repo.message}</div>
-        } else {
-            return (
-                <div class="Card">
-                    <aside>
-                        <img
-                            width="48"
-                            height="48"
-                            class="Avatar"
-                            src={repo.owner.avatar_url}
-                            onClick={this.props.onAvatarClick}
-                        />
-                        {children}
-                    </aside>
-                    <header>
-                        <h2 class="Card__title">{repo.full_name}</h2>
-                        <span class="Card__meta">{repo.description}</span>
-                    </header>
-                </div>
-            )
-        }
+    render() {
+        return (
+            <div class="Card">
+                <aside>
+                    <img
+                        width="48"
+                        height="48"
+                        class="Avatar"
+                        src={this.repo.owner.avatar_url}
+                    />
+                    {this.props.children}
+                </aside>
+                <header>
+                    <h2 class="Card__title">{this.repo.full_name}</h2>
+                    <span class="Card__meta">{this.repo.description}</span>
+                </header>
+                <button onClick={this.decValue}>Dec</button>
+                <span>{this.state.value}</span>
+                <button onClick={this.incValue}>Inc</button>
+            </div>
+        )
     }
 }
 

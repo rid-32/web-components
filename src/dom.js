@@ -64,6 +64,8 @@ const objectToStyleString = (styles = {}) => {
 const addAttributes = (element, attrs) => {
     const props = Object.keys(attrs || {})
 
+    element.props = {}
+
     props.forEach(prop => {
         if (prop === 'style') {
             element.style.cssText = objectToStyleString(attrs[prop])

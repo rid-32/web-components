@@ -1,4 +1,4 @@
-import App from 'ui/app'
+import App from 'ui'
 
 const root = document.getElementById('app-root')
 
