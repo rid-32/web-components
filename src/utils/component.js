@@ -13,14 +13,18 @@ class Component extends HTMLElement {
         this._setChildren()
 
         this._componentShadowRoot.appendChild(this.render())
+
+        this.componentDidMount()
     }
 
-    update() {
+    update = () => {
         if (this._componentShadowRoot.children.length) {
             this._componentShadowRoot.replaceChild(
                 this.render(),
                 this._componentShadowRoot.children[0]
             )
+
+            this.componentDidUpdate()
         }
     }
 
@@ -29,6 +33,10 @@ class Component extends HTMLElement {
 
         this.update()
     }
+
+    componentDidMount() {}
+
+    componentDidUpdate() {}
 
     render() {
         return null
