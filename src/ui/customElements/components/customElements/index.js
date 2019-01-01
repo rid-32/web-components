@@ -1,5 +1,4 @@
-import dom from 'dom'
-import Component from 'utils/component'
+import jsx, { Component } from 'custom-elements-jsx'
 
 class customElements extends Component {
     render() {
@@ -21,4 +20,6 @@ class customElements extends Component {
     }
 }
 
-window.customElements.define('custom-elements', customElements)
+// Check that the element hasn't already been registered
+if (!window.customElements.get('custom-elements'))
+    window.customElements.define('custom-elements', customElements)

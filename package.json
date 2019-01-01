@@ -39,6 +39,7 @@
     "src"
   ],
   "dependencies": {
+    "custom-elements-jsx": "^1.0.0",
     "redux": "^4.0.1",
     "redux-actions": "^2.6.4",
     "redux-devtools-extension": "^2.13.7",

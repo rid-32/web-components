@@ -1,7 +1,6 @@
+import jsx, { Component } from 'custom-elements-jsx'
 import { bindActionCreators } from 'redux'
 
-import dom from 'dom'
-import Component from 'utils/component'
 import store from 'store'
 import * as actions from 'actions'
 
@@ -14,7 +13,12 @@ const bindedActions = {
 }
 
 class customElementsContainer extends Component {
+    // if you want to use custom element inside of render method of other custom
+    // element, you should know, that state of this element will be reset after
+    // rerender. To avoid this, you should pass state and setState function from
+    // custom element, that can`t be rerender - root custom element
     componentDidMount() {
+        // this will update component`s shadow dom if store is changed
         store.subscribe(this.update)
 
         this.fetchElements()
@@ -43,7 +47,9 @@ class customElementsContainer extends Component {
     }
 }
 
-window.customElements.define(
-    'custom-elements-container',
-    customElementsContainer
-)
+// Check that the element hasn't already been registered
+if (!window.customElements.get('custom-elements-container'))
+    window.customElements.define(
+        'custom-elements-container',
+        customElementsContainer
+    )
