@@ -1,6 +1,12 @@
 import jsx, { Component } from 'custom-elements-jsx'
 
 class customElements extends Component {
+    onClick = () => {
+        this.props.state.value++
+
+        this.update()
+    }
+
     render() {
         const { isFetching, fetchElements, children } = this.props
 
@@ -13,6 +19,9 @@ class customElements extends Component {
                         {children}
                         <br />
                         <button onClick={fetchElements}>Fetch Elements</button>
+                        <button onClick={this.onClick}>
+                            {String(this.props.state.value)}
+                        </button>
                     </div>
                 )}
             </div>

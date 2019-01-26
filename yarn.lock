@@ -1811,9 +1811,9 @@ cssesc@^0.1.0:
   integrity sha1-yBSQPkViM3GgR3tAEJqq++6t27Q=
 
 custom-elements-jsx@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/custom-elements-jsx/-/custom-elements-jsx-1.0.0.tgz#2be67eb51566af26e660ba0d8a09e374a05fdbae"
-  integrity sha512-+R5Ijva5/ACpo/99AajeZ0U+PbKf1X7UgS9r1s3Wp0MckBSCqp9qB0I8Y/6E5SyJVlEwjWD+lNzKT9TqUcjbAg==
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/custom-elements-jsx/-/custom-elements-jsx-1.0.2.tgz#1cfca813726d1108464bb156010f0e6fe57b7f08"
+  integrity sha512-U7yfLk9QGwsl0hjF+vZyXf1kA6A6nU01kUTBZfGiOcXFFYnhV2qYl26jXGd7VWbVAAO9zHH1C5hKqpnC5QmyBg==
 
 cyclist@~0.2.2:
   version "0.2.2"
